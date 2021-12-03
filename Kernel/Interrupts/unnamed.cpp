@@ -16,7 +16,7 @@ typedef struct {
 
 idt_gate_t idt[256];
 
-char *exceptionMessages[] = {
+const char *exceptionMessages[] = {
         "Division by zero",
         "Debug",
         "Reserved"

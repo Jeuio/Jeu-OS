@@ -1,5 +1,5 @@
-C_SOURCES = $(wildcard Kernel/*.cpp Drivers/*.cpp Librarys/*.cpp)
-HEADERS = $(wildcard Kernel/*.h Drivers/*.h Librarys/*.cpp)
+C_SOURCES = $(wildcard Kernel/*.cpp Kernel/Interrupts/*.cpp Drivers/*.cpp Librarys/*.cpp)
+HEADERS = $(wildcard Kernel/*.h Kernel/Interrupts/*.h Drivers/*.h Librarys/*.h)
 KERNEL_ENTRY = $(wildcard Kernel/*.asm)
 
 KERNEL_ENTRY_OBJ = ${KERNEL_ENTRY:.asm=.o}
@@ -20,8 +20,8 @@ bootloader.bin : Bootloader/bootloader.asm
 
 
 kernel.bin : ${KERNEL_ENTRY_OBJ} ${OBJ}
-	ld -T NUL -o kernel.tmp -Ttext 0x1000 $^
-	objcopy -O binary -j .text kernel.tmp kernel.bin
+	ld -T "linkerScript" -o kernel.tmp $^
+	objcopy -O binary -j .text -j .rdata kernel.tmp kernel.bin
 
 
 

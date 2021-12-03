@@ -15,9 +15,9 @@
 
 
 
-void print(char* message, short col, short row, unsigned char attribute_byte);
+void print(const char* message, short col, short row, unsigned char attribute_byte);
 
-void println(char* message, short col, short row, unsigned char attribute_byte);
+void println(const char* message, short col, short row, unsigned char attribute_byte);
 
 void clearScreen();
 
