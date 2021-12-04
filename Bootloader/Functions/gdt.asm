@@ -40,7 +40,7 @@ gdt_code:
     dw 0x0                          ;base (bits 0-15)
     db 0x0                          ;base (bits 16-23)
     db 10011010b                    ;1st flags (present, highest privilege, code/data)  /  type flags (code, conforming, readable, unaccessed)
-    db 11001111b                    ;2nd flags ('extened segment' (4GB potential), 32-bit mode, not 64-bit mode, no AVL)  /  limit (bits 16-19)
+    db 11001111b                    ;2nd flags ('extend segment' (4GB potential), 32-bit mode, not 64-bit mode, no AVL)  /  limit (bits 16-19)
     db 0x0                          ;base (bits 24-31)
 
 gdt_data:

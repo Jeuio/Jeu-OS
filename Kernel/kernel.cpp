@@ -1,11 +1,18 @@
 #include "../Drivers/screen.h"
+#include "../Drivers/Keyboard.h"
+#include "Interrupts/idt.h"
+#include "Interrupts/isr.h"
 
-int kernel_main() {
+extern "C" int kernel_main() {
 
     clearScreen();
-    println("Welcome to Jeu-OS", 31, 0, 0x0f);
-    println("I really don't like how i dealt with this text display thing.", -1, -1, 0x0f);
-    println("Please redo this crap!", -1, -1, 0x04);
+    println("Welcome to Jeu-OS!ßüäöÜÄÖ", 30, 0);
+    println("Installing interrupt service routines (ISRs)");
+    isrInstall();
+    println("Enabling external interrupts");
+    asm volatile("sti");
+    println("Initializing keyboard (IRQ 1)");
+    initKeyboard();
 
     return 0;
 }

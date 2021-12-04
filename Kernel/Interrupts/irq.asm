@@ -1,3 +1,4 @@
+[extern irqHandler]
 global irq0
 global irq1
 global irq2
@@ -94,3 +95,35 @@ irq15:
     push byte 15
     push byte 47
     jmp irq_common_stub
+
+
+
+irq_common_stub:
+    pusha
+
+    mov ax, ds
+    push eax
+
+    mov ax, 0x10
+    mov ds, ax
+    mov es, ax
+    mov fs, ax
+    mov gs, ax
+
+    push esp
+
+    call irqHandler
+
+    pop eax
+
+    pop eax
+    mov ds, ax
+    mov es, ax
+    mov fs, ax
+    mov gs, ax
+
+    popa
+
+    add esp, 8
+
+    iret

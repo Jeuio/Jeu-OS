@@ -2,13 +2,15 @@
 // Created by jeuio on 01/12/2021.
 //
 
-#ifndef JEU_OS_KEYBOARD_H
-#define JEU_OS_KEYBOARD_H
+#pragma once
 
+#include "../Kernel/Interrupts/isr.h"
+#include "../Kernel/ports.h"
 
-class Keyboard{
+#include "screen.h"
 
-};
+static void keyboardCallback(registers_t *regs);
 
+unsigned char getLetter(unsigned char scancode);
 
-#endif //JEU_OS_KEYBOARD_H
+void initKeyboard();

@@ -20,9 +20,9 @@
 
 
 
-void print(const char* message, short col, short row, unsigned char attribute_byte);
+void print(const char* message, short col = -1, short row = -1, unsigned char attribute_byte = VGA_WHITE_ON_BLACK);
 
-void println(const char* message, short col, short row, unsigned char attribute_byte);
+void println(const char* message, short col = -1, short row = -1, unsigned char attribute_byte = VGA_WHITE_ON_BLACK);
 
 void clearScreen();
 
