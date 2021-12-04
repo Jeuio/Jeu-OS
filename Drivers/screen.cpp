@@ -7,6 +7,11 @@
 
 void print(const char* textAddress, short col, short row, unsigned char attribute_byte) {
 
+    /*
+     * Color codes: 0 = black, 1 = dark green, 2 = dark blue, 3 = red, 4 = magenta, 5 = brown, 6 = light gray, 7 = gray
+     *              8 = dark gray, 9 = light green, 10 = light blue, 11 = dark red, 12 = pink, 13 = yellow, 14 = white
+     */
+
     unsigned char *videoMemory = (unsigned char*) VIDEO_ADDRESS;    //Address of the video memory to be print to
 
     unsigned short offset;
