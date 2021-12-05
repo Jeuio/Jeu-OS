@@ -6,7 +6,7 @@
 extern "C" int kernel_main() {
 
     clearScreen();
-    println("Welcome to Jeu-OS!ßüäöÜÄÖ", 30, 0);
+    println("Welcome to Jeu-OS!", 30, 0);
     println("Installing interrupt service routines (ISRs)");
     isrInstall();
     println("Enabling external interrupts");

@@ -5,14 +5,14 @@
 #include "screen.h"
 #include "../Kernel/ports.h"
 
-void print(const char* textAddress, short col, short row, unsigned char attribute_byte) {
+void print(const char *textAddress, short col, short row, unsigned char attribute_byte) {
 
     /*
      * Color codes: 0 = black, 1 = dark green, 2 = dark blue, 3 = red, 4 = magenta, 5 = brown, 6 = light gray, 7 = gray
      *              8 = dark gray, 9 = light green, 10 = light blue, 11 = dark red, 12 = pink, 13 = yellow, 14 = white
      */
 
-    unsigned char *videoMemory = (unsigned char*) VIDEO_ADDRESS;    //Address of the video memory to be print to
+    unsigned char *videoMemory = (unsigned char *) VIDEO_ADDRESS;    //Address of the video memory to be print to
 
     unsigned short offset;
     if (col >= 0 && row >= 0) { //If a position is specified, set the cursor to the position and print
@@ -32,20 +32,51 @@ void print(const char* textAddress, short col, short row, unsigned char attribut
             setCursorPosition(offset + i);
             return;
         }
+
         *(videoMemory + (offset + i) * 2) = textAddress[i];           //Set the ASCII code of the char
         *(videoMemory + (offset + i) * 2 + 1) = attribute_byte;       //Set the color of the printed char
+
+        if (offset + i >= (MAX_ROWS - 3) * MAX_COLS - 1) {
+            offset -= MAX_COLS;
+            scroll(1);
+        }
     }
 }
 
-void println(const char* textAddress, short col, short row, unsigned char attribute_byte) {
+void println(const char *textAddress, short col, short row, unsigned char attribute_byte) {
 
     print(textAddress, col, row, attribute_byte);
     setCursorPosition((getCursorPosition() / MAX_COLS + 1) * MAX_COLS);  //@todo remove division
 }
 
+void scroll(unsigned char lines) {
+
+    unsigned char *videoAddress = (unsigned char *) VIDEO_ADDRESS;
+
+    unsigned char i;
+    for (i = 0; i < MAX_ROWS - lines; ++i) {
+
+        for (unsigned char j = 0; j < MAX_COLS; ++j) {
+
+            *(videoAddress + (i * MAX_COLS + j) * 2) = *(videoAddress + ((i + lines) * MAX_COLS + j) * 2);
+            *(videoAddress + (i * MAX_COLS + j) * 2 + 1) = *(videoAddress + ((i + lines) * MAX_COLS + j) * 2 + 1);
+        }
+    }
+    for (unsigned char k = i; k < MAX_ROWS; ++k) {
+
+        for (unsigned char j = 0; j < MAX_COLS; ++j) {
+
+            *(videoAddress + ((i * MAX_COLS) + j) * 2) = 0x20;
+            *(videoAddress + ((i * MAX_COLS) + j) * 2 + 1) = 0x0f;
+        }
+    }
+
+    setCursorPosition((getCursorPosition() / MAX_COLS - lines) * MAX_COLS);
+}
+
 void clearScreen() {
 
-    unsigned char *videoMemory = (unsigned char*) VIDEO_ADDRESS;
+    unsigned char *videoMemory = (unsigned char *) VIDEO_ADDRESS;
 
     for (int i = 0; i < MAX_ROWS * MAX_COLS * 2; i += 2) {
 
@@ -73,8 +104,8 @@ unsigned short getCursorPosition() {
 
 void setCursorPosition(unsigned short position) {
 
-    unsigned char posL = (unsigned char)position;
-    unsigned char posH = (unsigned char)(position >> 8);
+    unsigned char posL = (unsigned char) position;
+    unsigned char posH = (unsigned char) (position >> 8);
 
     portByteOut(REG_SCREEN_CTRL, 14);
     portByteOut(REG_SCREEN_DATA, posH);

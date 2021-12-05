@@ -24,6 +24,10 @@ void print(const char* message, short col = -1, short row = -1, unsigned char at
 
 void println(const char* message, short col = -1, short row = -1, unsigned char attribute_byte = VGA_WHITE_ON_BLACK);
 
+void printChar(char message, short col = -1, short row = -1, unsigned char attribute_byte = VGA_WHITE_ON_BLACK);
+
+void scroll(unsigned char lines);
+
 void clearScreen();
 
 unsigned short getCursorPosition();
