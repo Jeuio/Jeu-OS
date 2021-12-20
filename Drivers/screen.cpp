@@ -36,7 +36,7 @@ void print(const char *textAddress, short col, short row, unsigned char attribut
         *(videoMemory + (offset + i) * 2) = textAddress[i];           //Set the ASCII code of the char
         *(videoMemory + (offset + i) * 2 + 1) = attribute_byte;       //Set the color of the printed char
 
-        if (offset + i >= (MAX_ROWS - 3) * MAX_COLS - 1) {
+        if (offset + i >= (MAX_ROWS - 1) * MAX_COLS - 1) {
             offset -= MAX_COLS;
             scroll(1);
         }
@@ -47,6 +47,18 @@ void println(const char *textAddress, short col, short row, unsigned char attrib
 
     print(textAddress, col, row, attribute_byte);
     setCursorPosition((getCursorPosition() / MAX_COLS + 1) * MAX_COLS);  //@todo remove division
+}
+
+void backspace() {
+
+    unsigned short cPos = getCursorPosition();
+    if (cPos > 0) {
+
+        unsigned char *videoAddress = (unsigned char *) VIDEO_ADDRESS;
+        *(videoAddress + (cPos - 1) * 2) = 0x20;
+        *(videoAddress + (cPos - 1) * 2 + 1) = VGA_WHITE_ON_BLACK;
+        setCursorPosition(cPos - 1);
+    }
 }
 
 void scroll(unsigned char lines) {

@@ -26,6 +26,8 @@ void println(const char* message, short col = -1, short row = -1, unsigned char 
 
 void printChar(char message, short col = -1, short row = -1, unsigned char attribute_byte = VGA_WHITE_ON_BLACK);
 
+void backspace();
+
 void scroll(unsigned char lines);
 
 void clearScreen();

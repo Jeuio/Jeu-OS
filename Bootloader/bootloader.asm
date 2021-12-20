@@ -20,6 +20,11 @@ start:
     mov dl, [BOOT_DRIVE]
     call disk_load
 
+    ;configure video mode comment this out when trying to display text, obviously
+    ;mov ah, 0x00
+    ;mov al, 0x13
+    ;int 0x10
+
     ;switch to 32-bits
     call switch_to_pm
 

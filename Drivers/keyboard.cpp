@@ -2,13 +2,14 @@
 // Created by jeuio on 01/12/2021.
 //
 
-#include "Keyboard.h"
+#include "keyboard.h"
 
 void initKeyboard() {
 
     registerInterruptHandler(IRQ1, keyboardCallback);
 }
 
+bool shift = false;
 unsigned char getLetter(unsigned char scancode) {
 
     //@todo map the scancode to a key properly. this will be really painful
@@ -18,29 +19,62 @@ unsigned char getLetter(unsigned char scancode) {
         case 0x01:
             return 0x1b;    // escape
         case 0x02:
+            if (shift) {
+                return 0x21;// !
+            }
             return 0x31;    // 1
         case 0x03:
+            if (shift) {
+                return 0x22;// "
+            }
             return 0x32;    // 2
         case 0x04:
+            if (shift) {
+                return 0x24;// §
+            }
             return 0x33;    // 3
         case 0x05:
             return 0x34;    // 4
         case 0x06:
+            if (shift) {
+                return 0x25;// %
+            }
             return 0x35;    // 5
         case 0x07:
+            if (shift) {
+                return 0x26;// &
+            }
             return 0x36;    // 6
         case 0x08:
+            if (shift) {
+                return 0x2f;// /
+            }
             return 0x37;    // 7
         case 0x09:
+            if (shift) {
+                return 0x28;// (
+            }
             return 0x38;    // 8
         case 0x0a:
+            if (shift) {
+                return 0x29;// )
+            }
             return 0x39;    // 9
         case 0x0b:
+            if (shift) {
+                return 0x3d;// =
+            }
             return 0x30;    // 0
         case 0x0c:
+            if (shift) {
+                return 0x3f;// ?
+            }
             return 0x00;    // ß
         case 0x0d:
-            return 0x2c;    // ´
+            if (shift) {
+                return 0x60;// `
+            }
+            return 0x00;    // ´
         case 0x0e:
             return 0x08;    // backspace
         case 0x0f:
@@ -68,9 +102,12 @@ unsigned char getLetter(unsigned char scancode) {
         case 0x1a:
             return 0x00;    // ü
         case 0x1b:
+            if (shift) {
+                return 0x2a;// *
+            }
             return 0x2b;    // +
         case 0x1c:
-            return 0x00;    // enter
+            return 0x0a;    // enter
         case 0x1e:
             return 0x61;    // a
         case 0x1f:
@@ -96,8 +133,12 @@ unsigned char getLetter(unsigned char scancode) {
         case 0x29:
             return 0x5e;    // ^
         case 0x2a:
-            return 0x00;    // left shift @todo implement this
+            shift = true;
+            return 0x00;    // left shift pressed @todo implement this
         case 0x2b:
+            if (shift) {
+                return 0x27;// '
+            }
             return 0x23;    // #
         case 0x2c:
             return 0x79;    // y
@@ -114,14 +155,26 @@ unsigned char getLetter(unsigned char scancode) {
         case 0x32:
             return 0x6d;    // m
         case 0x33:
+            if (shift) {
+                return 0x3b;// ;
+            }
             return 0x2c;    // ,
         case 0x34:
+            if (shift) {
+                return 0x3a;// :
+            }
             return 0x2e;    // .
         case 0x35:
+            if (shift) {
+                return 0x3f;// _
+            }
             return 0x2d;    // -
         case 0x36:
             return 0x00;    // right shift @todo implement caps
+        case 0x39:
+            return 0x20;    // space
         case 0x3a:
+            shift = !shift;
             return 0x00;    // caps lock
         case 0x3b:
             return 0x00;    // f1
@@ -144,11 +197,17 @@ unsigned char getLetter(unsigned char scancode) {
         case 0x44:
             return 0x00;    // f10
         case 0x56:
+            if (shift) {
+                return 0x3e;// >
+            }
             return 0x3c;    // <
         case 0x57:
             return 0x00;    // f11
         case 0x58:
             return 0x00;    // f12
+        case 0xaa:
+            shift = false;
+            return 0x00;    // left shift released
     }
 
     return 0x00;
@@ -159,10 +218,26 @@ static void keyboardCallback(registers_t *regs) {
     unsigned char scancode = portByteIn(0x60);
     char key[2];
     key[0] = getLetter(scancode);
-    if (key[0] == 0) {
+    if (key[0] == 0x00) {
         return;
     }
-    key[1] = 0x00;
+    if (key[0] == 0x0a) {
 
+        //@todo this leads to ugly behaviour of the cursor for a brief moment
+        setCursorPosition((getCursorPosition() / MAX_COLS + 1) * MAX_COLS);
+        if (getCursorPosition() >= (MAX_ROWS - 1) * MAX_COLS) {
+            scroll(1);
+        }
+        return;
+    }
+    if (key[0] == 0x08) {
+        backspace();
+        return;
+    }
+    if (shift && key[0] >= 0x61 && key[0] <= 0x7a) {    //@todo move this to the getLetter function
+        key[0] -= 0x20;
+    }
+
+    key[1] = 0x00;
     print(key, -1 ,-1 , VGA_WHITE_ON_BLACK);
 }
