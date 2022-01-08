@@ -100,6 +100,11 @@ void testGraphics() {
     }
 }
 
+void drawPixel(unsigned short x, unsigned short y, unsigned char color) {
+
+    *((unsigned char*)GRAPHICS_ADDRESS + y * SCREEN_WIDTH + x) = color;
+}
+
 void drawSquare(unsigned short x, unsigned short y, unsigned short sizeX, unsigned short sizeY, unsigned char color) {
 
     //@todo workaround for overflow

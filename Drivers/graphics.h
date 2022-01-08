@@ -22,6 +22,7 @@ struct RGB {
     unsigned char r, g, b;
 };
 
+
 void paletteSet(unsigned short index, RGB rgb);
 
 void setMode(unsigned char mode);
@@ -29,6 +30,8 @@ void setMode(unsigned char mode);
 void initScreen(unsigned char mode);
 
 void testGraphics();
+
+void drawPixel(unsigned short x, unsigned short y, unsigned char color);
 
 void drawSquare(unsigned short x, unsigned short y, unsigned short sizeX, unsigned short sizeY, unsigned char color);
 
