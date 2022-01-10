@@ -21,14 +21,14 @@ void initScreen(unsigned char mode) {
     portByteOut(PALETTE_DATA, 255);
     portByteOut(PALETTE_DATA, 255);
 
-    //setMode(mode);    //@todo fix this
+    //setMode(mode);    // @fixme
 }
 
 void setMode(unsigned char mode) {
 
-    portByteOut(0x3c2, 0b00000001);     //Correct  mapping of 0x3d4 register
+    portByteOut(0x3c2, 0b00000001);     // Correct  mapping of 0x3d4 register
     portByteOut(0x3d4, 0x11);
-    portByteOut(0x3d5, 0b10000000);     //Disable write protection
+    portByteOut(0x3d5, 0b10000000);     // Disable write protection
 
     switch (mode) {
 
@@ -43,7 +43,7 @@ void setMode(unsigned char mode) {
             portByteOut(MODE_CONTROL, 0x00);
 
             //Miscellaneous Output Register
-            portByteOut(0x3c3, 0x63);   //@todo might be source of problem
+            portByteOut(0x3c3, 0x63);   // @todo might be source of problem
 
             //Clock Mode Register
             portByteOut(0x3c4, 0x01);
@@ -93,7 +93,7 @@ void paletteSet(unsigned short index, RGB rgb) {
 
 void testGraphics() {
 
-    unsigned char* mem = (unsigned char*)GRAPHICS_ADDRESS;
+    unsigned char* mem = (unsigned char*)BUFFER_ADDRESS;  // @todo change this back to GRAPHICS_ADDRESS
     for (unsigned int i = 0; i < 64000; ++i) {
 
         *(mem + i) = i / 250;
@@ -102,14 +102,31 @@ void testGraphics() {
 
 void drawPixel(unsigned short x, unsigned short y, unsigned char color) {
 
-    *((unsigned char*)GRAPHICS_ADDRESS + y * SCREEN_WIDTH + x) = color;
+    *((unsigned char*)BUFFER_ADDRESS + y * SCREEN_WIDTH + x) = color;
 }
 
 void drawSquare(unsigned short x, unsigned short y, unsigned short sizeX, unsigned short sizeY, unsigned char color) {
 
     //@todo workaround for overflow
 
-    unsigned char* mem = (unsigned char*)GRAPHICS_ADDRESS;
+    unsigned char* mem = (unsigned char*)BUFFER_ADDRESS;
+
+    for (unsigned short i = x; i < x + sizeX; ++i) {
+
+        *(mem + i + y * SCREEN_WIDTH) = color;
+        *(mem + (sizeY - 1) * SCREEN_WIDTH + i + y * SCREEN_WIDTH) = color;    // @annotation maybe y - 1 needs to be y
+    }
+
+    for (unsigned short i = y; i < y + sizeY; ++i) {
+
+        *(mem + i * SCREEN_WIDTH + x) = color;
+        *(mem + i * SCREEN_WIDTH + x + (sizeX - 1)) = color;
+    }
+}
+
+void fillSquare(unsigned short x, unsigned short y, unsigned short sizeX, unsigned short sizeY, unsigned char color) {
+
+    unsigned char* mem = (unsigned char*)BUFFER_ADDRESS;
 
     for (unsigned short i = y; i < y + sizeY; ++i) {
 
@@ -120,20 +137,10 @@ void drawSquare(unsigned short x, unsigned short y, unsigned short sizeX, unsign
     }
 }
 
-void drawChessBoard() {
+void flush() {
 
-    unsigned char color[2];
-    color[0] = 0b01000101;
-    color[1] = 0b11111111;
+    for (unsigned int i = 0; i < 64000; ++i) {
 
-    bool white = true;
-    for (unsigned char i = 0; i < 8; ++i) {
-
-        for (unsigned char j = 0; j < 8; ++j) {
-
-            drawSquare(i * 25 + 60, j * 25, 25, 25, color[white]);
-            white = !white;
-        }
-        white = !white;
+        *((unsigned char*)GRAPHICS_ADDRESS + i) = *((unsigned char*)BUFFER_ADDRESS + i);
     }
 }

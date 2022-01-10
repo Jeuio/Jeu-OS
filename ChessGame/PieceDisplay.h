@@ -6,4 +6,15 @@
 
 #include "../Drivers/graphics.h"
 
-void displayPiece(const unsigned char pieceData[72], unsigned short x, unsigned short y, unsigned char color);
+namespace ChessGame {
+
+    void displayPiece(const unsigned char pieceData[72], unsigned short x, unsigned short y, unsigned char color);
+
+    void displayCursor(unsigned char cursorPos);
+
+    void highlightSelectedPiece();
+
+    void drawChessBoardTiles();
+
+    void drawBoard(unsigned char boardState[32]);
+}

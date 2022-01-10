@@ -23,11 +23,11 @@ bootloader.bin : Bootloader/bootloader.asm
 
 kernel.bin : ${ASM_OBJ} ${OBJ}
 	ld -T "linkerScript" -o kernel.tmp $^
-	objcopy -O binary -j .text -j .rdata kernel.tmp kernel.bin
+	objcopy -O binary -j .text -j .data -j .rdata kernel.tmp kernel.bin
 
 
 
-%.o : %.cpp ${HEADERS}
+%.o : %.cpp
 	g++ -g --no-leading-underscore -ffreestanding -c $< -o $@
 
 

@@ -4,6 +4,8 @@
 
 #include "keyboard.h"
 
+#include "../ChessGame/Game.h" // @todo remove
+
 void initKeyboard() {
 
     registerInterruptHandler(IRQ1, keyboardCallback);
@@ -218,12 +220,16 @@ static void keyboardCallback(registers_t *regs) {
     unsigned char scancode = portByteIn(0x60);
     char key[2];
     key[0] = getLetter(scancode);
+
+    // @todo remove or relocate this, since it is chess game specific
+    ChessGame::Variables::pressedKey = key[0];
+
     if (key[0] == 0x00) {
         return;
     }
     if (key[0] == 0x0a) {
 
-        //@todo this leads to ugly behaviour of the cursor for a brief moment
+        //@todo this leads to ugly behaviour of the text cursor for a brief moment
         setCursorPosition((getCursorPosition() / MAX_COLS + 1) * MAX_COLS);
         if (getCursorPosition() >= (MAX_ROWS - 1) * MAX_COLS) {
             scroll(1);

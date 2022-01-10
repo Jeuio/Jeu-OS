@@ -4,11 +4,12 @@
 #include "Interrupts/idt.h"
 #include "Interrupts/isr.h"
 
-#include "../ChessGame/PieceDisplay.h"
-#include "../ChessGame/Piecegraphics.h"
+#include "../ChessGame/Game.h"
 
 // @annotation If something doesn't work as intended: 1. Remember to make EVERY constants used throughout the project 'const' they will be put into the .data segment otherwise, which will not be put into the final bin-file.
 // @annotation                                        2. Use the 'objdump -s' command to show the exact content of each segment
+
+// @annotation i've noticed that data is redundant in the final bin file, wasting my precious memory
 
 extern "C" int kernel_main() {
 
@@ -28,47 +29,9 @@ extern "C" int kernel_main() {
     println("Drawing test graphics to the screen");
     testGraphics();
 
-    println("Drawing a chess board");
-    drawChessBoard();
+    println("Starting the chess game");
 
-    for (unsigned short i = 0; i < 100; ++i) {
-
-        drawPixel(i, 100, 0b10001001);
-    }
-
-
-
-
-    // @todo put this into its own function
-    for (unsigned char i = 0; i < 8; ++i) {
-
-        displayPiece(PieceData::pawn, 60 + i * 25, 26, 0b10101010);
-    }
-    for (unsigned char i = 0; i < 8; ++i) {
-
-        displayPiece(PieceData::pawn, 60 + i * 25, 151, 0b10101010);
-    }
-    displayPiece(PieceData::rook, 60, 1, 0b10101010);
-    displayPiece(PieceData::rook, 60, 176, 0b10101010);
-    displayPiece(PieceData::rook, 235, 1, 0b10101010);
-    displayPiece(PieceData::rook, 235, 176, 0b10101010);
-
-    displayPiece(PieceData::knight, 85, 1, 0b10101010);
-    displayPiece(PieceData::knight, 85, 176, 0b10101010);
-    displayPiece(PieceData::knight, 210, 1, 0b10101010);
-    displayPiece(PieceData::knight, 210, 176, 0b10101010);
-
-    displayPiece(PieceData::bishop, 110, 1, 0b10101010);
-    displayPiece(PieceData::bishop, 110, 176, 0b10101010);
-    displayPiece(PieceData::bishop, 185, 1, 0b10101010);
-    displayPiece(PieceData::bishop, 185, 176, 0b10101010);
-
-    displayPiece(PieceData::queen, 135, 1, 0b10101010);
-    displayPiece(PieceData::queen, 135, 176, 0b10101010);
-
-    displayPiece(PieceData::king, 160, 1, 0b10101010);
-    displayPiece(PieceData::king, 160, 176, 0b10101010);
-
+    ChessGame::start();
 
     return 0;
 }
