@@ -61,16 +61,19 @@ void ChessGame::update() {
                     }
                 } else if (selectedPiece != cursorPos) {    // If a piece is selected, and it's not the currently selected piece
 
-                    selectedPiece = 64;   // Deselect the piece
-
                     unsigned char currentPieceData = boardState[selectedPiece / 2] & (0b11110000 >> offset1);
+                    unsigned char selectedPieceData = boardState[selectedPiece / 2];
                     currentPieceData >>= 4 - offset1;
+
+
                     boardState[selectedPiece / 2] &= offset1 == 0 ? 0b00001111 : 0b11110000;
 
-                    ChessGame::movePiece(ChessGame::PieceData::king, selectedPiece % 8 * 25 + 60, selectedPiece / 8 * 25, cursorPos % 8 * 25 + 60, cursorPos / 8 * 25, 0b11100000, 1000);   // @todo change the pieces appearance to the appropriate figure
+                    ChessGame::movePiece(currentPieceData & 0b00000111, selectedPiece % 8 * 25 + 60, selectedPiece / 8 * 25, cursorPos % 8 * 25 + 60, cursorPos / 8 * 25, ChessGame::PieceData::pieceColors[currentPieceData & 0b00001000], 1000);   // @todo change the pieces appearance to the appropriate figure
 
                     boardState[cursorPos / 2] &= offset2 == 0 ? 0b00001111 : 0b11110000;
                     boardState[cursorPos / 2] |= currentPieceData << (4 - offset2);
+
+                    selectedPiece = 64;   // Deselect the piece
 
                 } else if (selectedPiece == cursorPos) {    // If the currently selected piece is re-selected
                     selectedPiece = 64;   // Deselect the piece
@@ -99,12 +102,12 @@ void ChessGame::update() {
     flush();
 }
 
-void ChessGame::movePiece(const unsigned char *data, unsigned short x, unsigned short y, unsigned short tX, unsigned short tY, unsigned char color, unsigned int steps) {
+void ChessGame::movePiece(unsigned char pieceIndex, unsigned short x, unsigned short y, unsigned short tX, unsigned short tY, unsigned char color, unsigned int steps) {
 
     double diffX = tX - x;
     double diffY = tY - y;
 
-    for (unsigned short i= 0; i < steps; ++i) {
+    for (unsigned short i = 0; i < steps; ++i) {
 
         double dX = x + diffX / (double)steps * i;
         double dY = y + diffY / (double)steps * i;
@@ -112,8 +115,8 @@ void ChessGame::movePiece(const unsigned char *data, unsigned short x, unsigned 
         testGraphics();
         ChessGame::drawChessBoardTiles();
         ChessGame::drawBoard(ChessGame::Variables::boardState);
-        ChessGame::displayPiece(data, (unsigned short)dX, (unsigned short)dY, color);
+        ChessGame::displayPiece(pieceIndex, (unsigned short)dX, (unsigned short)dY, color);
         flush();
-        std::timer::wait(1000000);
+        std::timer::wait(100000);
     }
 }

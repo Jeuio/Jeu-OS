@@ -6,7 +6,7 @@
 #include "Piecegraphics.h"
 #include "Variables.h"
 
-void ChessGame::displayPiece(const unsigned char pieceData[72], unsigned short x, unsigned short y, unsigned char color) {
+void ChessGame::displayPiece(unsigned char index, unsigned short x, unsigned short y, unsigned char color) {
 
     for (unsigned char i = 0; i < 24; ++i) {
 
@@ -14,9 +14,11 @@ void ChessGame::displayPiece(const unsigned char pieceData[72], unsigned short x
 
             for (unsigned char k = 0; k < 8; ++k) {
 
-                if (pieceData[i * 3 + j] & (0b10000000 >> k)) { // If the bit at the corresponding position in the bitmap is set
+                if (index > 0 && index < 7) {
+                    if (ChessGame::PieceData::pieces[index - 1][i * 3 + j] & (0b10000000 >> k)) { // If the bit at the corresponding position in the bitmap is set
 
-                    drawPixel(x + (j * 8 + k), y + i, color);
+                        drawPixel(x + (j * 8 + k), y + i, color);
+                    }
                 }
             }
         }
@@ -59,33 +61,8 @@ void ChessGame::drawBoard(unsigned char *boardState) {
 
         unsigned char pieceData = boardState[i / 2] >> (4 - ((i % 2) * 4));
 
-        unsigned char color = pieceData & 0b1000 ? 0b00100101 : 0b11011010;
+        unsigned char color = ChessGame::PieceData::pieceColors[pieceData & 0b1000];
 
-        switch (pieceData & 0b0111) {
-
-            case ChessGame::Variables::PAWN:
-                displayPiece(ChessGame::PieceData::pawn, i % 8 * 25 + 60, i / 8 * 25 + 1, color);
-                break;
-
-            case ChessGame::Variables::ROOK:
-                displayPiece(ChessGame::PieceData::rook, i % 8 * 25 + 60, i / 8 * 25 + 1, color);
-                break;
-
-            case ChessGame::Variables::KNIGHT:
-                displayPiece(ChessGame::PieceData::knight, i % 8 * 25 + 60, i / 8 * 25 + 1, color);
-                break;
-
-            case ChessGame::Variables::BISHOP:
-                displayPiece(ChessGame::PieceData::bishop, i % 8 * 25 + 60, i / 8 * 25 + 1, color);
-                break;
-
-            case ChessGame::Variables::QUEEN:
-                displayPiece(ChessGame::PieceData::queen, i % 8 * 25 + 60, i / 8 * 25 + 1, color);
-                break;
-
-            case ChessGame::Variables::KING:
-                displayPiece(ChessGame::PieceData::king, i % 8 * 25 + 60, i / 8 * 25 + 1, color);
-                break;
-        }
+        displayPiece((pieceData & 0b0111), i % 8 * 25 + 60, i / 8 * 25 + 1, color);
     }
 }

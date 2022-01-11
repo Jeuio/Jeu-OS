@@ -136,7 +136,7 @@ unsigned char getLetter(unsigned char scancode) {
             return 0x5e;    // ^
         case 0x2a:
             shift = true;
-            return 0x00;    // left shift pressed @todo implement this
+            return 0x00;    // left shift pressed
         case 0x2b:
             if (shift) {
                 return 0x27;// '

@@ -15,7 +15,7 @@ namespace ChessGame {
 
         enum pieceTypes {
 
-            PAWN = 1, ROOK, KNIGHT, BISHOP, QUEEN, KING
+            PAWN = 0, ROOK, KNIGHT, BISHOP, QUEEN, KING
         };
 
         extern const unsigned char initialBoardState[32];

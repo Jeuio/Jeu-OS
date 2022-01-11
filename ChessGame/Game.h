@@ -15,5 +15,5 @@ namespace ChessGame {
 
     void update();
 
-    void movePiece(const unsigned char data[72], unsigned short x, unsigned short y, unsigned short tX, unsigned short tY, unsigned char color, unsigned int steps);
+    void movePiece(unsigned char pieceIndex, unsigned short x, unsigned short y, unsigned short tX, unsigned short tY, unsigned char color, unsigned int steps);
 }

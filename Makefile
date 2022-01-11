@@ -6,13 +6,15 @@ ASM_OBJ = ${ASM:.asm=.o}
 OBJ = ${C_SOURCES:.cpp=.o}
 
 
-all: Jeu-OS-image
+Jeu-OS.iso: Jeu-OS.bin
+	Oscdimg -b"bootloader.bin" iso Jeu-OS.iso
 
 
-Jeu-OS-image: bootloader.bin kernel.bin
-	copy bootloader.bin /b + kernel.bin /b  Jeu-OS-image.bin
-	copy bootloader.bin iso\boot\grub\bootloader.bin
-	copy kernel.bin iso\boot\kernel.bin
+
+Jeu-OS.bin: bootloader.bin kernel.bin
+	copy bootloader.bin /b + kernel.bin /b  Jeu-OS.bin
+	copy kernel.bin iso\kernel.bin
+
 
 
 

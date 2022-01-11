@@ -1,6 +1,6 @@
 [org 0x7C00]               ;This isn't needed when trying to create an elf format file, as we do
 
-KERNEL_OFFSET equ 0x1000
+KERNEL_OFFSET equ 0x1000    ; Memory address of the kernels beginning
 
 start:
     mov [BOOT_DRIVE], dl    ;remembers location of boot drive
@@ -29,13 +29,13 @@ start:
     ;switch to 32-bits
     call switch_to_pm
 
-    jmp $                               ;halt the program in case some shit went horribly wrong (shit hits the fan at lightspeed)
+    jmp $                               ;halt the program in case something went wrong
 
 [BITS 16]
 ;16-bit routines
 %include "Bootloader\Functions\print_string.asm"
 %include "Bootloader\Functions\disk_load.asm"
-;%include "Bootloader\Functions\print_hex.asm"
+%include "Bootloader\Functions\print_hex.asm"
 ;%include "Bootloader\Functions\segment_test.asm"
 %include "Bootloader\Functions\gdt.asm"
 
@@ -57,7 +57,7 @@ BEGIN_PM:
 
 
 ;Global variables
-BOOT_DRIVE: db 0
+BOOT_DRIVE: db 0    ; boot drive number
 MSG_REAL_MODE: db "Started in 16-bit Real Mode", 0
 MSG_PROT_MODE: db "Successfully landed in 32-bit Protected Mode", 0
 MSG_LOAD_KERNEL: db "Loading kernel into memory", 0
