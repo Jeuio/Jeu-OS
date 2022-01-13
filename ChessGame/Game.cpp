@@ -62,7 +62,6 @@ void ChessGame::update() {
                 } else if (selectedPiece != cursorPos) {    // If a piece is selected, and it's not the currently selected piece
 
                     unsigned char currentPieceData = boardState[selectedPiece / 2] & (0b11110000 >> offset1);
-                    unsigned char selectedPieceData = boardState[selectedPiece / 2];
                     currentPieceData >>= 4 - offset1;
 
 

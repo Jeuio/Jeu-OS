@@ -19,7 +19,7 @@ print_hex:
 
         print:
             mov ah, 0x0e    ;set some very very important stuff for the int 0x10 call i have literally no clue of
-            add al, 0x30    ;the character to be pinted on the screen in ascii
+            add al, 0x30    ;the character to be printed on the screen in ascii
             int 0x10        ;call 0x10 to print a character to the screen
             cmp cx, 0x0     ;compares cx to 0
             jg char_loop    ;if cx is bigger than 0 loop back to the beginning

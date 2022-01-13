@@ -229,7 +229,7 @@ static void keyboardCallback(registers_t *regs) {
     }
     if (key[0] == 0x0a) {
 
-        //@todo this leads to ugly behaviour of the text cursor for a brief moment
+        //@annoyance this leads to ugly behaviour of the text cursor for a brief moment
         setCursorPosition((getCursorPosition() / MAX_COLS + 1) * MAX_COLS);
         if (getCursorPosition() >= (MAX_ROWS - 1) * MAX_COLS) {
             scroll(1);
