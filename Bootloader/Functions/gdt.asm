@@ -49,13 +49,13 @@ gdt_data:
     dw 0xffff                       ;limit (bits 0-15)
     dw 0x0                          ;base (bits 0-15)
     db 0x0                          ;base (bits 16-23)
-    db 10010010b                    ;1st flags (present, highes privilege, code/data)  /  type flags (data, extends below, writable, unaccessed)
+    db 10010010b                    ;1st flags (present, highest privilege, code/data)  /  type flags (data, extends below, writable, unaccessed)
     db 11001111b                    ;2nd flags ('extended segment' (4GB potential), 32-bit mode, not 64-bit mode, no AVL)  /  limit (bits 16-19)
     db 0x0                          ;base (bits 24-31)
 
 gdt_end:                            ;for marking the end of the gdt
 
-gdt_descriptor:                     ;general purpose of the gdt_descriptor is to let the cpu know where gdt's are
+gdt_descriptor:                     ;general purpose of the gdt_descriptor is to let the cpu know where gdts are
     dw gdt_end - gdt_start - 1      ;size of the gdt (2 byte)
     dd gdt_start                    ;start address of the gdt (1 byte)
 

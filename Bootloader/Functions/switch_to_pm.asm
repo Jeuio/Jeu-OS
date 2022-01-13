@@ -8,7 +8,7 @@ switch_to_pm:
     or eax, 0x1                         ;sets the first bit of eax to 1 and leaves the rest unchanged. the flag at position 1 of cr0 is for switching to 32-bit mode
     mov cr0, eax                        ;sets cr0 to eax. the cpu is now - mostly - in 32-bit mode
 
-    jmp CODE_SEG:init_pm                ;performs a far jump to make sure the pipeline is empts so the cpu is sure to be fully switched into 32-bit mode
+    jmp CODE_SEG:init_pm                ;performs a far jump to make sure the pipeline is empty so the cpu is sure to be fully switched into 32-bit mode
 
 
 [BITS 32]

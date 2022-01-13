@@ -6,15 +6,15 @@ ASM_OBJ = ${ASM:.asm=.o}
 OBJ = ${C_SOURCES:.cpp=.o}
 
 
+
 Jeu-OS.iso: Jeu-OS.bin
-	Oscdimg -b"bootloader.bin" iso Jeu-OS.iso
+	Oscdimg -b"bootloader.bin" iso Jeu-OS.iso	# @license LICENSING PROBLEM: MICROSOFT ONLY ALLOWS THIS WITH PRODUCTS LICENSED BY MICROSOFT
 
 
 
 Jeu-OS.bin: bootloader.bin kernel.bin
 	copy bootloader.bin /b + kernel.bin /b  Jeu-OS.bin
 	copy kernel.bin iso\kernel.bin
-
 
 
 
