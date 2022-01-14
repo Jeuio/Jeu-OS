@@ -67,7 +67,7 @@ void ChessGame::update() {
 
                     boardState[selectedPiece / 2] &= offset1 == 0 ? 0b00001111 : 0b11110000;
 
-                    ChessGame::movePiece(currentPieceData & 0b00000111, selectedPiece % 8 * 25 + 60, selectedPiece / 8 * 25, cursorPos % 8 * 25 + 60, cursorPos / 8 * 25, ChessGame::PieceData::pieceColors[currentPieceData & 0b00001000], 1000);   // @todo change the pieces appearance to the appropriate figure
+                    ChessGame::movePiece(currentPieceData & 0b00000111, selectedPiece % 8 * 25 + 60, selectedPiece / 8 * 25, cursorPos % 8 * 25 + 60, cursorPos / 8 * 25, ChessGame::PieceData::pieceColors[currentPieceData & 0b00001000], 1000);
 
                     boardState[cursorPos / 2] &= offset2 == 0 ? 0b00001111 : 0b11110000;
                     boardState[cursorPos / 2] |= currentPieceData << (4 - offset2);

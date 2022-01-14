@@ -14,8 +14,6 @@ void initKeyboard() {
 bool shift = false;
 unsigned char getLetter(unsigned char scancode) {
 
-    //@todo map the scancode to a key properly. this will be really painful
-
     switch (scancode) {
 
         case 0x01:

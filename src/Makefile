@@ -8,8 +8,7 @@ OBJ = ${C_SOURCES:.cpp=.o}
 
 
 Jeu-OS.iso: Jeu-OS.bin
-	Oscdimg -b"bootloader.bin" iso Jeu-OS.iso	# @license LICENSING PROBLEM: MICROSOFT ONLY ALLOWS THIS WITH PRODUCTS LICENSED BY MICROSOFT
-
+# Put program for making iso here
 
 
 Jeu-OS.bin: bootloader.bin kernel.bin

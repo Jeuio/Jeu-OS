@@ -43,7 +43,7 @@ void setMode(unsigned char mode) {
             portByteOut(MODE_CONTROL, 0x00);
 
             //Miscellaneous Output Register
-            portByteOut(0x3c3, 0x63);   // @todo might be source of problem
+            portByteOut(0x3c3, 0x63);   // @annotation might be source of problem
 
             //Clock Mode Register
             portByteOut(0x3c4, 0x01);
@@ -93,7 +93,7 @@ void paletteSet(unsigned short index, RGB rgb) {
 
 void testGraphics() {
 
-    unsigned char* mem = (unsigned char*)BUFFER_ADDRESS;  // @todo change this back to GRAPHICS_ADDRESS
+    unsigned char* mem = (unsigned char*)BUFFER_ADDRESS;  // @todo change this back to GRAPHICS_ADDRESS in the future
     for (unsigned int i = 0; i < 64000; ++i) {
 
         *(mem + i) = i / 250;
@@ -107,14 +107,12 @@ void drawPixel(unsigned short x, unsigned short y, unsigned char color) {
 
 void drawSquare(unsigned short x, unsigned short y, unsigned short sizeX, unsigned short sizeY, unsigned char color) {
 
-    //@todo workaround for overflow
-
     unsigned char* mem = (unsigned char*)BUFFER_ADDRESS;
 
     for (unsigned short i = x; i < x + sizeX; ++i) {
 
         *(mem + i + y * SCREEN_WIDTH) = color;
-        *(mem + (sizeY - 1) * SCREEN_WIDTH + i + y * SCREEN_WIDTH) = color;    // @annotation maybe y - 1 needs to be y
+        *(mem + (sizeY - 1) * SCREEN_WIDTH + i + y * SCREEN_WIDTH) = color;
     }
 
     for (unsigned short i = y; i < y + sizeY; ++i) {

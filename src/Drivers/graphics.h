@@ -2,8 +2,6 @@
 // Created by jeuio on 08/12/2021.
 //
 
-// @annoyance
-
 #pragma once
 
 #define GRAPHICS_ADDRESS 0xa0000

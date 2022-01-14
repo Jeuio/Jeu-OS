@@ -16,7 +16,7 @@ disk_load:
 
     pop dx          ;Restore DX from the stack
     cmp dh, al      ;if AL (sectors read) != DH (sectors expected)
-    jne disk_error  ;display error message // @todo re-enable
+    jne disk_error  ;display error message
     ret
 
     disk_error:

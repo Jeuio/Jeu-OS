@@ -25,8 +25,6 @@ void print(const char *textAddress, short col, short row, unsigned char attribut
 
     for (unsigned short i = 0; 1; ++i) {
 
-        //@todo might be optimised by using a char to temporarily store data
-
         if (textAddress[i] == '\0') {   //If the end of the string is reached, stop printing
 
             setCursorPosition(offset + i);
@@ -46,7 +44,7 @@ void print(const char *textAddress, short col, short row, unsigned char attribut
 void println(const char *textAddress, short col, short row, unsigned char attribute_byte) {
 
     print(textAddress, col, row, attribute_byte);
-    setCursorPosition((getCursorPosition() / MAX_COLS + 1) * MAX_COLS);  //@todo remove division
+    setCursorPosition((getCursorPosition() / MAX_COLS + 1) * MAX_COLS);
 }
 
 void backspace() {

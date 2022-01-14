@@ -1,5 +1,5 @@
 [BITS 16]
-;bx is the pointer of the string
+;bx is the pointer to the string
 print_string:
     pusha                   ;pushes all registers to the stack
     mov ah, 0x0e            ;sets parameters for tele-interrupt

@@ -16,12 +16,12 @@ through VGA driver and keyboard input through the optical input channel.
 <br>
 
 <a id = "how-to-use"></a>
-## How to use:
+## How to use
 <p>
 I'd recommend using a Linux-like system or alternatively a Linux environment
 like MinGW if you are on a Windows system. I would also strongly
 advise to only run this on a virtual machine, as I can't guarantee that
-this software will leave the hardware component intact.
+this software will leave the hardware components intact.
 <br>
 
 ### How to compile:

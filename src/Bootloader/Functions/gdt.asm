@@ -1,5 +1,5 @@
 [BITS 16]
-;generall gdt structure in order (8 bytes in total):
+;general gdt structure in order (8 bytes in total):
 ;2 bytes = first part of the limit
 ;3 bytes = first part of the base
 ;4 bits  = 1st flags
