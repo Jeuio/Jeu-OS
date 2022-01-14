@@ -6,6 +6,7 @@
 [Summary](#summary)<br>
 [How to use](#how-to-use)<br>
 [Questions you might have](#questions-you-might-have)<br>
+[License](#license)
 [Sources](#sources)
 <br>
 
@@ -75,6 +76,10 @@ throughout the execution, the OS can be optimised for a specific purpose
 </p>
 <br>
 
+<a id = "license"></a>
+## License information
+Please mind the license: <a href = "LICENSE">License</a>
+<br>
 
 <a id = "sources"></a>
 ## Sources:
