@@ -37,3 +37,6 @@
 
 # Isos
 *.iso
+/.idea/
+/src/.idea/vcs.xml
+/src/.idea/misc.xml
