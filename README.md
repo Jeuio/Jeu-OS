@@ -6,7 +6,7 @@
 [Summary](#summary)<br>
 [How to use](#how-to-use)<br>
 [Questions you might have](#questions-you-might-have)<br>
-[License](#license)
+[License](#license)<br>
 [Sources](#sources)
 <br>
 
