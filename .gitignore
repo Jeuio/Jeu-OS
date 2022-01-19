@@ -35,8 +35,6 @@
 *.bin
 *.tmp
 
-# Isos
-*.iso
+# Misc
 /.idea/
-/src/.idea/vcs.xml
-/src/.idea/misc.xml
+*.iso

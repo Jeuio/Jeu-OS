@@ -5,6 +5,10 @@
 
 #include "../ChessGame/Game.h"
 
+
+
+#include "../Librarys/Fonts.h"
+
 extern "C" int kernel_main() {
 
     clearScreen();
