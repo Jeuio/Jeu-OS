@@ -6,9 +6,9 @@ disk_load:
 
     mov ah, 0x02    ; Read mode
     mov al, dh      ;read dh sectors
-    mov ch, 0x00    ;cylinder 0
     mov dh, 0x00    ;head 0
-    mov cl, 0x02    ; which sector to start reading at (for disk: 2)
+    mov ch, 0x00    ;cylinder 0
+    mov cl, 0x05    ; which sector to start reading at (for disk: 2, for iso: 5)
 
     int 0x13        ;BIOS interrupt
 
@@ -16,8 +16,8 @@ disk_load:
 
     pop dx          ;Restore DX from the stack
     cmp dh, al      ;if AL (sectors read) != DH (sectors expected)
-    jne disk_error  ;display error message
-    ret
+    jne insufficient_sectors  ;display error message
+    retn
 
     disk_error:
 
@@ -31,5 +31,13 @@ disk_load:
 
         jmp $
 
+    insufficient_sectors:
+
+        mov bx, INSUFFICIENT_SECTORS_MSG
+        call print_string
+
+        jmp $
+
 ;variables
 DISK_ERROR_MSG db "Disk read error: ", 0
+INSUFFICIENT_SECTORS_MSG db "Not enough sectors read", 0

@@ -1,9 +1,9 @@
 [org 0x7C00]               ;This isn't needed when trying to create an elf format file, as we do
 
-KERNEL_OFFSET equ 0x1000    ; Memory address of the kernels beginning
+KERNEL_OFFSET equ 0x1000    ; Memory address of the kernels beginning (0x1000)
 
 start:
-    mov [BOOT_DRIVE], dl    ;remembers location of boot drive
+    mov [BOOT_DRIVE], dl    ;remembers address of boot drive
 
     ;set the pointers of the stack
     mov bp, 0x9bff          ;sets the base pointer of the stack just below the location of the bootloader in memory
@@ -16,8 +16,8 @@ start:
     call print_string
 
     mov bx, KERNEL_OFFSET
-    mov dh, 30
-    mov dl, [BOOT_DRIVE]
+    mov dh, 32               ; Load sectors
+    mov dl, [BOOT_DRIVE]     ; Address of boot drive
     call disk_load
 
     ; @annoyance this in not dynamic. use the VGA registers to switch modes in the future
@@ -62,5 +62,4 @@ MSG_REAL_MODE: db "Started in 16-bit Real Mode", 0
 MSG_PROT_MODE: db "Successfully landed in 32-bit Protected Mode", 0
 MSG_LOAD_KERNEL: db "Loading kernel into memory", 0
 
-times 510 - ($ - $$) db 0
-dw 0xaa55
+times 446 - ($ - $$) db 0   ; The last 6 bytes could be used for "Unique Disk ID" (4 bytes) and "reserved" (2 bytes)

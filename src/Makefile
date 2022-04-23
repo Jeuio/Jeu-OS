@@ -7,18 +7,29 @@ OBJ = ${C_SOURCES:.cpp=.o}
 
 
 
+Clean:
+	del /Q /F /S "*.tmp"
+	del /Q /F /S "*.o"
+	del /Q /F /S "*.bin"
+
+
+
 Jeu-OS.iso: Jeu-OS.bin
-# Put program for making iso here
+	copy bootloader.bin iso\bootloader.bin
+	copy kernel.bin iso\kernel.bin
+	xorriso -as mkisofs -b bootloader.bin -hard-disk-boot -o JeuOS.iso iso
+	$(MAKE) Clean
 
 
 Jeu-OS.bin: bootloader.bin kernel.bin
 	copy bootloader.bin /b + kernel.bin /b  Jeu-OS.bin
-	copy kernel.bin iso\kernel.bin
 
 
 
 bootloader.bin : Bootloader/bootloader.asm
-	nasm Bootloader/bootloader.asm -o bootloader.bin
+	nasm Bootloader/bootloader.asm -o bootstrap.bin
+	nasm Bootloader/MBR.asm -o MBR.bin
+	copy bootstrap.bin /b + MBR.bin /b bootloader.bin
 
 
 
