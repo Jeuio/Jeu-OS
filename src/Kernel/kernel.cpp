@@ -25,11 +25,16 @@ extern "C" int kernel_main() {
     initScreen(COLOR_256_LINEAR);
 
     println("Drawing test graphics to the screen");
-    testGraphics();
+    //testGraphics();
+
+    for (unsigned char i = 0; i < 26; ++i) {
+
+        graphicsPrint(i, i, 0);
+    }
 
     println("Starting the chess game");
 
-    ChessGame::start();
+    //ChessGame::start();
 
     return 0;
 }

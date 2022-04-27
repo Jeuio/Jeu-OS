@@ -5,6 +5,8 @@
 #pragma once
 
 #define VIDEO_ADDRESS 0xb8000
+#define SIZE_X 640
+#define SIZE_Y 480
 #define MAX_ROWS 25
 #define MAX_COLS 80
 
@@ -25,6 +27,14 @@ void print(const char* message, short col = -1, short row = -1, unsigned char at
 void println(const char* message, short col = -1, short row = -1, unsigned char attribute_byte = VGA_WHITE_ON_BLACK);
 
 void printChar(char message, short col = -1, short row = -1, unsigned char attribute_byte = VGA_WHITE_ON_BLACK);
+
+/**
+ * @brief Prints letters while in VGA graphics mode
+ * @param letter the index of the letter to be print
+ * @note Maximum rows per page: 48\n
+ * Maximum cols per row: 71
+ */
+void graphicsPrint(unsigned char letter, unsigned char col, unsigned char row);
 
 void backspace();
 

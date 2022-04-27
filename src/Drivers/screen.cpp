@@ -4,6 +4,8 @@
 
 #include "screen.h"
 #include "../Kernel/ports.h"
+#include "../Librarys/Fonts.h"
+#include "graphics.h"
 
 void print(const char *textAddress, short col, short row, unsigned char attribute_byte) {
 
@@ -45,6 +47,25 @@ void println(const char *textAddress, short col, short row, unsigned char attrib
 
     print(textAddress, col, row, attribute_byte);
     setCursorPosition((getCursorPosition() / MAX_COLS + 1) * MAX_COLS);
+}
+
+void graphicsPrint(unsigned char letter, unsigned char col, unsigned char row) {
+
+    for (unsigned char i = 0; i < 10; ++i) {
+
+        for (unsigned char j = 0; j < 8; ++j) {
+
+            if (Fonts::Custom::characters[letter][i] >> (7 - j) & 1) {
+
+                drawPixel(j + col * 9, i + row * 10, 0b11111111);
+            } else {
+
+                drawPixel(j + col * 9, i + row * 10, 0b00000000);
+            }
+
+        }
+    }
+    flush();
 }
 
 void backspace() {
