@@ -31,6 +31,10 @@ extern "C" int kernel_main() {
 
         graphicsPrint(i, i, 0);
     }
+    for (unsigned char i = 0; i < 26; ++i) {
+
+        graphicsPrint(i + 26, i, 1);
+    }
 
     println("Starting the chess game");
 
