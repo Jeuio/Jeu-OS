@@ -11,7 +11,6 @@ Clean:
 ifdef OS
 	del /Q /F /S "*.tmp"
 	del /Q /F /S "*.o"
-	del /Q /F /S "*.bin"
 endif
 
 
@@ -26,24 +25,32 @@ else
 endif
 
 
-Jeu-OS.bin: bootloader.bin kernel.bin
+Jeu-OS.bin: GPT.bin bootloader.bin kernel.bin
 ifdef OS
-	copy bootloader.bin /b + kernel.bin /b  Jeu-OS.bin
+	copy GPT.bin /b + bootloader.bin /b + kernel.bin /b  Jeu-OS.bin
 else
 
 endif
 
+
+GPT.bin: Bootloader/GPT.asm
+ifdef OS
+	nasm Bootloader/GPT.asm -o GPT.bin
+endif
+
+
+MBR.bin: Bootloader/MBR.asm
+ifdef OS
+	nasm Bootloader/MBR.asm -o MBR.bin
+endif
 
 
 bootloader.bin : Bootloader/bootloader.asm
 ifdef OS
-	nasm Bootloader/bootloader.asm -o bootstrap.bin
-	nasm Bootloader/MBR.asm -o MBR.bin
-	copy bootstrap.bin /b + MBR.bin /b bootloader.bin
+	nasm Bootloader/bootloader.asm -o bootloader.bin
 else
 
 endif
-
 
 
 kernel.bin : ${ASM_OBJ} ${OBJ}
