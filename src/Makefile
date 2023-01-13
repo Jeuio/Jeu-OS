@@ -5,20 +5,21 @@ ASM = $(wildcard Kernel/*.asm Kernel/Interrupts/*.asm)
 ASM_OBJ = ${ASM:.asm=.o}
 OBJ = ${C_SOURCES:.cpp=.o}
 
-
+all: Jeu-OS.iso
 
 Clean:
 ifdef OS
 	del /Q /F /S "*.tmp"
 	del /Q /F /S "*.o"
+	del /Q /F /S "*.bin"
 endif
 
 
-Jeu-OS.iso: Jeu-OS.bin
+Jeu-OS.iso: MBR.bin Jeu-OS.bin
 ifdef OS
-	copy bootloader.bin iso\bootloader.bin
+	copy MBR.bin iso\MBR.bin
 	copy kernel.bin iso\kernel.bin
-	xorriso -as mkisofs -b bootloader.bin -hard-disk-boot -o JeuOS.iso iso
+	xorriso -as mkisofs -b MBR.bin -hard-disk-boot -o JeuOS.iso iso
 	$(MAKE) Clean
 else
 
@@ -65,7 +66,7 @@ endif
 
 %.o : %.cpp
 ifdef OS
-	g++ -g --no-leading-underscore -ffreestanding -c $< -o $@
+	g++ -g --no-leading-underscore -ffreestanding -fpermissive -c $< -o $@
 else
 
 endif

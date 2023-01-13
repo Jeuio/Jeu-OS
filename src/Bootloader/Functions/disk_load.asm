@@ -38,6 +38,9 @@ disk_load:
 
         jmp $
 
+
+lba_to_chs:
+
 ;variables
 DISK_ERROR_MSG db "Disk read error: ", 0
 INSUFFICIENT_SECTORS_MSG db "Not enough sectors read", 0

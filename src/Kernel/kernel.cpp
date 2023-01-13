@@ -27,14 +27,14 @@ extern "C" int kernel_main() {
     println("Drawing test graphics to the screen");
     //testGraphics();
 
-    for (unsigned char i = 0; i < 26; ++i) {
+    //for (unsigned char i = 0; i < 26; ++i) {
 
-        graphicsPrint(i, i, 0);
-    }
+    //    graphicsPrint(i, i, 0);
+    //}
 
     println("Starting the chess game");
 
-    //ChessGame::start();
+    ChessGame::start();
 
     return 0;
 }

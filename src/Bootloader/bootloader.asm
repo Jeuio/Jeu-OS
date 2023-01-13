@@ -3,11 +3,11 @@
 KERNEL_OFFSET equ 0x1000    ; Memory address of the kernels beginning (0x1000)
 
 start:
-    mov [BOOT_DRIVE], dl    ;remembers address of boot drive
+    mov BYTE [BOOT_DRIVE], dl    ;remembers address of boot drive
 
     ;set the pointers of the stack
-    mov bp, 0x9bff          ;sets the base pointer of the stack just below the location of the bootloader in memory
-    mov sp, bp              ;also needed for stack
+    mov bp, 0x9bff          ; Sets the base pointer of the stack
+    mov sp, bp              ; Set the pointer of the stack
 
     mov bx, MSG_REAL_MODE
     call print_string
